@@ -24,5 +24,17 @@ jobs:
         with:
           token: ${{ secrets.TC_CLOUD_TOKEN }}
 
+      - name: Build
+        run: mvn --batch-mode -DskipTests package
+
       - name: Test
-        run: mvn --batch-mode --update-snapshots verify
+        run: mvn --batch-mode -Dmaven.test.failure.ignore=true test
+
+      - name: Report
+        uses: dorny/test-reporter@v1
+        if: always()
+        with:
+          name: Maven Tests
+          path: target/surefire-reports/*.xml
+          reporter: java-junit
+          fail-on-error: true
