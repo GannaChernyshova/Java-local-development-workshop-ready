@@ -25,4 +25,4 @@ jobs:
           token: ${{ secrets.TC_CLOUD_TOKEN }}
 
       - name: Test
-        run: mvn test
+        run: mvn --batch-mode --update-snapshots verify
