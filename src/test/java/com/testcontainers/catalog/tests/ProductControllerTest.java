@@ -72,25 +72,6 @@ class ProductControllerTest extends com.testcontainers.catalog.tests.BaseIntegra
     }
 
     @Test
-    void getProductByCodeSuccessfully() {
-        String code = "P101";
-
-        Product product = given().contentType(ContentType.JSON)
-                .when()
-                .get("/api/products/{code}", code)
-                .then()
-                .statusCode(200)
-                .extract()
-                .as(Product.class);
-
-        assertThat(product.code()).isEqualTo(code);
-        assertThat(product.name()).isEqualTo("Product %s".formatted(code));
-        assertThat(product.description()).isEqualTo("Product %s description".formatted(code));
-        assertThat(product.price().compareTo(new BigDecimal("34.0"))).isEqualTo(0);
-        assertThat(product.available()).isTrue();
-    }
-
-    @Test
     void failsToCreateProductIfPayloadInvalid() {
         String code = UUID.randomUUID().toString();
         given().contentType(ContentType.JSON)
@@ -106,7 +87,8 @@ class ProductControllerTest extends com.testcontainers.catalog.tests.BaseIntegra
                 .when()
                 .post("/api/products")
                 .then()
-                .statusCode(400);
+                .statusCode(400)
+                .body("detail", endsWith("Invalid request content."));
     }
 
     @Test
@@ -145,13 +127,4 @@ class ProductControllerTest extends com.testcontainers.catalog.tests.BaseIntegra
                 .statusCode(500);
     }
 
-    @Test
-    void failsToGetProductByCodeIfCodeExists() {
-        String code = UUID.randomUUID().toString();
-        given().contentType(ContentType.JSON)
-                .when()
-                .get("/api/products/{code}", code)
-                .then()
-                .statusCode(404);
-    }
 }

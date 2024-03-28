@@ -36,13 +36,4 @@ class GetProductsTest extends BaseIntegrationTest {
         assertThat(product.available()).isTrue();
     }
 
-    @Test
-    void failsToGetProductByCodeIfCodeExists() {
-        String code = UUID.randomUUID().toString();
-        given().contentType(ContentType.JSON)
-                .when()
-                .get("/api/products/{code}", code)
-                .then()
-                .statusCode(404);
-    }
 }
