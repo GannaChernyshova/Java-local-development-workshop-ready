@@ -11,7 +11,6 @@ import com.testcontainers.catalog.domain.models.Product;
 import io.restassured.http.ContentType;
 import java.io.File;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.time.Duration;
 import java.util.Optional;
 import java.util.UUID;
@@ -126,5 +125,4 @@ class ProductControllerTest extends com.testcontainers.catalog.tests.BaseIntegra
                 .then()
                 .statusCode(500);
     }
-
 }
