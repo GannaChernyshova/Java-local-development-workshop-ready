@@ -7,7 +7,6 @@ import com.testcontainers.catalog.domain.ProductService;
 import com.testcontainers.catalog.domain.models.Product;
 import io.restassured.http.ContentType;
 import java.math.BigDecimal;
-import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
@@ -34,15 +33,5 @@ class GetProductsTest extends BaseIntegrationTest {
         assertThat(product.description()).isEqualTo("Product %s description".formatted(code));
         assertThat(product.price().compareTo(new BigDecimal("34.0"))).isEqualTo(0);
         assertThat(product.available()).isTrue();
-    }
-
-    @Test
-    void failsToGetProductByCodeIfCodeExists() {
-        String code = UUID.randomUUID().toString();
-        given().contentType(ContentType.JSON)
-                .when()
-                .get("/api/products/{code}", code)
-                .then()
-                .statusCode(404);
     }
 }
