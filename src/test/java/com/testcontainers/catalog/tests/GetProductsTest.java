@@ -34,4 +34,15 @@ class GetProductsTest extends BaseIntegrationTest {
         assertThat(product.price().compareTo(new BigDecimal("34.0"))).isEqualTo(0);
         assertThat(product.available()).isTrue();
     }
+
+    @Test
+    void getProductByCodeFails() {
+        String code = "P100000";
+
+        given().contentType(ContentType.JSON)
+                .when()
+                .get("/api/products/{code}", code)
+                .then()
+                .statusCode(404);
+    }
 }
