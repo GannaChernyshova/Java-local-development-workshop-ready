@@ -19,7 +19,8 @@ public class ContainersConfig {
     @Bean
     @ServiceConnection
     PostgreSQLContainer<?> postgresContainer() {
-        return new PostgreSQLContainer<>(parse("postgres:16-alpine")).withReuse(false);
+        return new PostgreSQLContainer<>(parse("postgres:16-alpine"))
+                .withReuse(false);
     }
 
     @Bean
@@ -28,27 +29,4 @@ public class ContainersConfig {
         return new KafkaContainer(parse("confluentinc/cp-kafka:7.5.3"));
     }
 
-    @Bean("localstackContainer")
-    LocalStackContainer localstackContainer(DynamicPropertyRegistry registry) {
-        LocalStackContainer localStack = new LocalStackContainer(parse("localstack/localstack:2.3"));
-        registry.add("spring.cloud.aws.credentials.access-key", localStack::getAccessKey);
-        registry.add("spring.cloud.aws.credentials.secret-key", localStack::getSecretKey);
-        registry.add("spring.cloud.aws.region.static", localStack::getRegion);
-        registry.add("spring.cloud.aws.endpoint", localStack::getEndpoint);
-        return localStack;
-    }
-
-    @Bean
-    @DependsOn("localstackContainer")
-    ApplicationRunner awsInitializer(ApplicationProperties properties, FileStorageService fileStorageService) {
-        return args -> fileStorageService.createBucket(properties.productImagesBucketName());
-    }
-
-    @Bean
-    WireMockContainer wiremockServer(DynamicPropertyRegistry registry) {
-        WireMockContainer wiremockServer =
-                new WireMockContainer("wiremock/wiremock:3.2.0-alpine").withMappingFromResource("mocks-config.json");
-        registry.add("application.inventory-service-url", wiremockServer::getBaseUrl);
-        return wiremockServer;
-    }
 }

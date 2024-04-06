@@ -46,31 +46,6 @@ class ProductControllerTest extends com.testcontainers.catalog.tests.BaseIntegra
     }
 
     @Test
-    void shouldUploadProductImageSuccessfully() throws IOException {
-        String code = "P101";
-        File file = new ClassPathResource("P101.jpg").getFile();
-
-        Optional<Product> product = productService.getProductByCode(code);
-        assertThat(product).isPresent();
-        assertThat(product.get().imageUrl()).isNull();
-
-        given().multiPart("file", file, "multipart/form-data")
-                .contentType(ContentType.MULTIPART)
-                .when()
-                .post("/api/products/{code}/image", code)
-                .then()
-                .statusCode(200)
-                .body("status", endsWith("success"))
-                .body("filename", endsWith("P101.jpg"));
-
-        await().pollInterval(Duration.ofSeconds(3)).atMost(10, SECONDS).untilAsserted(() -> {
-            Optional<Product> optionalProduct = productService.getProductByCode(code);
-            assertThat(optionalProduct).isPresent();
-            assertThat(optionalProduct.get().imageUrl()).isNotEmpty();
-        });
-    }
-
-    @Test
     void failsToCreateProductIfPayloadInvalid() {
         String code = UUID.randomUUID().toString();
         given().contentType(ContentType.JSON)
