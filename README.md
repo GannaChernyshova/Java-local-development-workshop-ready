@@ -152,7 +152,7 @@ First, make sure you have the following Testcontainers dependencies in your `pom
 ```
 
 ## Create ContainersConfig class under src/test/java
-Let's create [com.testcontainers.catalog.ContainersConfig](com/testcontainers/catalog/ContainersConfig.java)] class under `src/test/java` to configure the required containers.
+Let's create [com.testcontainers.catalog.ContainersConfig](src/test/java/com/testcontainers/catalog/ContainersConfig.java) class under `src/test/java` to configure the required containers.
 What this configuration class does:
 * `@TestConfiguration` annotation indicates that this configuration class defines the beans that can be used for Spring Boot tests.
 * Spring Boot provides `ServiceConnection` support for `JdbcConnectionDetails` and `KafkaConnectionDetails` out-of-the-box.
@@ -270,9 +270,6 @@ public class com.testcontainers.catalog.ContainersConfig {
     PostgreSQLContainer<?> postgresContainer() {
         return new PostgreSQLContainer<>(parse("postgres:16-alpine")).withReuse(true);
     }
-    
-    //Similarly add .withReuse(true) for other containers
-    
 }
 ```
 
@@ -299,14 +296,13 @@ So, let's create a [com.testcontainers.catalog.tests.BaseIntegrationTest](src/te
 ## Lets add tests for ProductController API endpoints
 Before writing the API tests, let's create [src/test/resources/test-data.sql](src/test/resources/test-data.sql) to insert some test data into the database.
 
-Create [ProductControllerTest](src/test/java/com/testcontainers/catalog/tests/ProductControllerTest.java) with: 
-* test to successfully create a new product.
-* test to successfully upload product image that checks the following:
-  * Before uploading the image, the product image URL is null for the product with code P101.
-  * Invoke the Product Image Upload API endpoint with the sample image file.
-  * Assert that the response status is 200 and the response body contains the image file name.
-  * Assert that the product image URL is updated in the database after the image upload.
-* test to get the product information by code.
+Create [ProductControllerTest](src/test/java/com/testcontainers/catalog/tests/ProductControllerTest.java) and [GetProductsTest](src/test/java/com/testcontainers/catalog/tests/GetProductsTest.java) with: 
+* test to successfully create a new product (createProductSuccessfully)
+* test to successfully upload product image (shouldUploadProductImageSuccessfully) that checks the following:
+* test to get the product information by code (getProductByCodeSuccessfully)
+* test to get product by code API fails if the product code does not exist (getProductByCodeFails)
+* test to create product API fails if the payload is invalid (failsToCreateProductIfPayloadInvalid)
+* test to create product API fails if the product code already exists (failsToCreateProductIfProductCodeExists)
 
 Now you can run tests from yur IDE or with Maven 
 ```shell
