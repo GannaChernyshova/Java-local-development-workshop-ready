@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.context.jdbc.Sql;
 
+// Let's create src/test/resources/test-data.sql to insert some test data into the database before tests
 @Sql("/test-data.sql")
 class ProductControllerTest extends com.testcontainers.catalog.tests.BaseIntegrationTest {
     @Autowired
@@ -30,13 +31,13 @@ class ProductControllerTest extends com.testcontainers.catalog.tests.BaseIntegra
         given().contentType(ContentType.JSON)
                 .body(
                         """
-                    {
-                        "code": "%s",
-                        "name": "Product %s",
-                        "description": "Product %s description",
-                        "price": 10.0
-                    }
-                    """
+                                {
+                                    "code": "%s",
+                                    "name": "Product %s",
+                                    "description": "Product %s description",
+                                    "price": 10.0
+                                }
+                                """
                                 .formatted(code, code, code))
                 .when()
                 .post("/api/products")
@@ -50,10 +51,13 @@ class ProductControllerTest extends com.testcontainers.catalog.tests.BaseIntegra
         String code = "P101";
         File file = new ClassPathResource("P101.jpg").getFile();
 
+        //   Check that before uploading the image, the product image URL is null for the product with code P101.
         Optional<Product> product = productService.getProductByCode(code);
         assertThat(product).isPresent();
         assertThat(product.get().imageUrl()).isNull();
 
+        //  Invoke the Product Image Upload API endpoint with the sample image file.
+        //  Assert that the response status is 200 and the response body contains the image file name.
         given().multiPart("file", file, "multipart/form-data")
                 .contentType(ContentType.MULTIPART)
                 .when()
@@ -63,6 +67,7 @@ class ProductControllerTest extends com.testcontainers.catalog.tests.BaseIntegra
                 .body("status", endsWith("success"))
                 .body("filename", endsWith("P101.jpg"));
 
+        //  Assert that the product image URL is updated in the database after the image upload.
         await().pollInterval(Duration.ofSeconds(3)).atMost(10, SECONDS).untilAsserted(() -> {
             Optional<Product> optionalProduct = productService.getProductByCode(code);
             assertThat(optionalProduct).isPresent();
@@ -76,12 +81,12 @@ class ProductControllerTest extends com.testcontainers.catalog.tests.BaseIntegra
         given().contentType(ContentType.JSON)
                 .body(
                         """
-                    {
-                        "code": "%s",
-                        "description": "Product %s description",
-                        "price": 10.0
-                    }
-                    """
+                                {
+                                    "code": "%s",
+                                    "description": "Product %s description",
+                                    "price": 10.0
+                                }
+                                """
                                 .formatted(code, code, code))
                 .when()
                 .post("/api/products")
@@ -96,13 +101,13 @@ class ProductControllerTest extends com.testcontainers.catalog.tests.BaseIntegra
         given().contentType(ContentType.JSON)
                 .body(
                         """
-                    {
-                        "code": "%s",
-                        "name": "Product %s",
-                        "description": "Product %s description",
-                        "price": 10.0
-                    }
-                    """
+                                {
+                                    "code": "%s",
+                                    "name": "Product %s",
+                                    "description": "Product %s description",
+                                    "price": 10.0
+                                }
+                                """
                                 .formatted(code, code, code))
                 .when()
                 .post("/api/products")
@@ -112,13 +117,13 @@ class ProductControllerTest extends com.testcontainers.catalog.tests.BaseIntegra
         given().contentType(ContentType.JSON)
                 .body(
                         """
-                    {
-                        "code": "%s",
-                        "name": "Another Product %s",
-                        "description": "Another product %s description",
-                        "price": 11.0
-                    }
-                    """
+                                {
+                                    "code": "%s",
+                                    "name": "Another Product %s",
+                                    "description": "Another product %s description",
+                                    "price": 11.0
+                                }
+                                """
                                 .formatted(code, code, code))
                 .when()
                 .post("/api/products")
