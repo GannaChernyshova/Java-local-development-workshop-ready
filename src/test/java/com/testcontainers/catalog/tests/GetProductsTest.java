@@ -7,7 +7,6 @@ import com.testcontainers.catalog.domain.ProductService;
 import com.testcontainers.catalog.domain.models.Product;
 import io.restassured.http.ContentType;
 import java.math.BigDecimal;
-import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
@@ -37,8 +36,9 @@ class GetProductsTest extends BaseIntegrationTest {
     }
 
     @Test
-    void failsToGetProductByCodeIfCodeExists() {
-        String code = UUID.randomUUID().toString();
+    void getProductByCodeFails() {
+        String code = "P100000";
+
         given().contentType(ContentType.JSON)
                 .when()
                 .get("/api/products/{code}", code)

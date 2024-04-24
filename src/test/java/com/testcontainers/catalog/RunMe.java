@@ -9,7 +9,6 @@ public class RunMe {
                 new PostgreSQLContainer(DockerImageName.parse("postgres:16.2-alpine"));
 
         postgreSQLContainer.start();
-        String ps = postgreSQLContainer.getJdbcUrl();
-        System.out.println("Postges is running:" + ps);
+        System.out.println(postgreSQLContainer.getJdbcUrl());
     }
 }
