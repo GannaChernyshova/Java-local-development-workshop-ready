@@ -19,7 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.context.jdbc.Sql;
 
-//Let's create src/test/resources/test-data.sql to insert some test data into the database before tests
+// Let's create src/test/resources/test-data.sql to insert some test data into the database before tests
 @Sql("/test-data.sql")
 class ProductControllerTest extends com.testcontainers.catalog.tests.BaseIntegrationTest {
     @Autowired
@@ -46,7 +46,6 @@ class ProductControllerTest extends com.testcontainers.catalog.tests.BaseIntegra
                 .header("Location", endsWith("/api/products/%s".formatted(code)));
     }
 
-
     @Test
     void shouldUploadProductImageSuccessfully() throws IOException {
         String code = "P101";
@@ -67,7 +66,6 @@ class ProductControllerTest extends com.testcontainers.catalog.tests.BaseIntegra
                 .statusCode(200)
                 .body("status", endsWith("success"))
                 .body("filename", endsWith("P101.jpg"));
-
 
         //  Assert that the product image URL is updated in the database after the image upload.
         await().pollInterval(Duration.ofSeconds(3)).atMost(10, SECONDS).untilAsserted(() -> {

@@ -39,8 +39,9 @@ public class ContainersConfig {
     }
 
     @Bean("localstackContainer")
-        //  Spring Cloud AWS doesn't provide ServiceConnection support out-of-the-box.
-        //  So we configured `LocalStackContainer` as a bean and registered the Spring Cloud AWS configuration properties using `DynamicPropertyRegistry`
+    //  Spring Cloud AWS doesn't provide ServiceConnection support out-of-the-box.
+    //  So we configured `LocalStackContainer` as a bean and registered the Spring Cloud AWS configuration properties
+    // using `DynamicPropertyRegistry`
     LocalStackContainer localstackContainer(DynamicPropertyRegistry registry) {
         LocalStackContainer localStack = new LocalStackContainer(parse("localstack/localstack:2.3"));
         registry.add("spring.cloud.aws.credentials.access-key", localStack::getAccessKey);
@@ -60,8 +61,10 @@ public class ContainersConfig {
     }
 
     @Bean
-        //    We'll start WireMockContainer using `DynamicPropertyRegistry` and register the Wiremock server URL as `application.inventory-service-url`.
-        //    So, when we make a call to inventory-service from our application, it will call the Wiremock server endpoint instead and get responses predefined in the mocks-config.json
+    //    We'll start WireMockContainer using `DynamicPropertyRegistry` and register the Wiremock server URL as
+    // `application.inventory-service-url`.
+    //    So, when we make a call to inventory-service from our application, it will call the Wiremock server endpoint
+    // instead and get responses predefined in the mocks-config.json
     WireMockContainer wiremockServer(DynamicPropertyRegistry registry) {
         WireMockContainer wiremockServer =
                 new WireMockContainer("wiremock/wiremock:3.2.0-alpine").withMappingFromResource("mocks-config.json");
