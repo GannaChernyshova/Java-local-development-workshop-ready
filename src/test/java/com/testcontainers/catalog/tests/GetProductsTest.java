@@ -5,6 +5,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.awaitility.Awaitility.await;
 import static org.hamcrest.CoreMatchers.endsWith;
+import static org.hamcrest.CoreMatchers.equalTo;
 
 import com.testcontainers.catalog.domain.ProductService;
 import com.testcontainers.catalog.domain.models.Product;
@@ -41,6 +42,18 @@ class GetProductsTest extends BaseIntegrationTest {
         assertThat(product.description()).isEqualTo("Product %s description".formatted(code));
         assertThat(product.price().compareTo(new BigDecimal("34.0"))).isEqualTo(0);
         assertThat(product.available()).isTrue();
+    }
+
+    @Test
+    void getProductByWrongCode() {
+        String code = "P100001";
+
+        given().contentType(ContentType.JSON)
+                .when()
+                .get("/api/products/{code}", code)
+                .then()
+                .statusCode(404)
+                .body("detail", equalTo(String.format("Product with the %s is not found", code)));
     }
 
     @Test
