@@ -6,6 +6,6 @@ public class ProductNotFoundException extends RuntimeException {
     }
 
     public static ProductNotFoundException withCode(String code) {
-        return new ProductNotFoundException("Product with the " + code + " is not found");
+        return new ProductNotFoundException(code + " is not found");
     }
 }

@@ -53,7 +53,7 @@ class GetProductsTest extends BaseIntegrationTest {
                 .get("/api/products/{code}", code)
                 .then()
                 .statusCode(404)
-                .body("detail", equalTo(String.format("Product with the %s is not found", code)));
+                .body("detail", equalTo(String.format("%s is not found", code)));
     }
 
     @Test
