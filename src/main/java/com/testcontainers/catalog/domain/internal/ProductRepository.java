@@ -1,15 +1,13 @@
 package com.testcontainers.catalog.domain.internal;
 
 import java.util.Optional;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.repository.query.Param;
+import org.springframework.data.mongodb.repository.Query;
 
-interface ProductRepository extends JpaRepository<ProductEntity, Long> {
+interface ProductRepository extends MongoRepository<ProductEntity, String> {
     Optional<ProductEntity> findByCode(String code);
 
-    @Modifying
-    @Query("update ProductEntity p set p.image = :image where p.code = :code")
+    @Query("db.products.updateOne({\"code\": \":code\"}, {$set: {\"image\": \":image\"}})")
     void updateProductImage(@Param("code") String code, @Param("image") String image);
 }

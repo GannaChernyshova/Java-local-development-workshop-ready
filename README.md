@@ -12,13 +12,13 @@ We work with a Spring Boot application and explore how to:
 The application we are working on is a microservice based on Spring Boot for managing a catalog of products.
 It provides APIs to save and retrieve the product information.
 
-![Sample App Architecture](assets/tcd-workshop-app.png)
+![Sample App Architecture](assets/tcd-workshop-mongo-app.png)
 
-### SQL database with the products
+###  Database with the products
 
 When a product is created, we will store the product information in our database.
 
-Our database of choice is PostgreSQL, accessed with Spring Data JPA.
+Our database of choice is MongoDB.
 
 Check [com.testcontainers.catalog.domain.internal.ProductRepository](src/main/java/com/testcontainers/catalog/domain/internal/ProductRepository.java).
 

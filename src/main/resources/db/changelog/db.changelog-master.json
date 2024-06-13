@@ -1,0 +1,48 @@
+{
+  "databaseChangeLog": [
+    {
+      "changeSet": {
+        "id": "1",
+        "author": "Alex",
+        "changes": [
+          {
+            "createCollection": {
+              "collectionName": "products"
+            }
+          },
+          {
+            "insert": {
+              "collectionName": "products",
+              "documents": [
+                {
+                  "_id": { "$oid": "60af5e1a1d4b1f1e0405b1a1" },
+                  "code": "P101",
+                  "name": "Product P101",
+                  "description": "Product P101 description",
+                  "image": null,
+                  "price": 34.0
+                },
+                {
+                  "_id": { "$oid": "60af5e1a1d4b1f1e0405b1a2" },
+                  "code": "P102",
+                  "name": "Product P102",
+                  "description": "Product P102 description",
+                  "image": null,
+                  "price": 25.0
+                },
+                {
+                  "_id": { "$oid": "60af5e1a1d4b1f1e0405b1a3" },
+                  "code": "P103",
+                  "name": "Product P103",
+                  "description": "Product P103 description",
+                  "image": null,
+                  "price": 15.0
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

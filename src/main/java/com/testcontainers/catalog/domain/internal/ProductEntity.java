@@ -1,29 +1,23 @@
 package com.testcontainers.catalog.domain.internal;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.math.BigDecimal;
 
-@Entity
-@Table(name = "products")
+@Document(collection = "products")
 class ProductEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
-    @Column(nullable = false, unique = true)
     @NotEmpty(message = "Product code must not be null/empty")
     private String code;
 
     @NotEmpty(message = "Product name must not be null/empty")
-    @Column(nullable = false)
     private String name;
 
     private String description;
@@ -31,12 +25,11 @@ class ProductEntity {
     private String image;
 
     @NotNull(message = "Product price must not be null") @DecimalMin("0.1")
-    @Column(nullable = false)
     private BigDecimal price;
 
     public ProductEntity() {}
 
-    public ProductEntity(Long id, String code, String name, String description, String image, BigDecimal price) {
+    public ProductEntity(String id, String code, String name, String description, String image, BigDecimal price) {
         this.id = id;
         this.code = code;
         this.name = name;
@@ -45,11 +38,11 @@ class ProductEntity {
         this.price = price;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

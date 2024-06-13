@@ -4,20 +4,23 @@ import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.testcontainers.catalog.domain.ProductService;
+import com.testcontainers.catalog.domain.models.CreateProductRequest;
 import com.testcontainers.catalog.domain.models.Product;
 import io.restassured.http.ContentType;
+
 import java.math.BigDecimal;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.jdbc.Sql;
 
-@Sql("/test-data.sql")
+
 class GetProductsTest extends BaseIntegrationTest {
     @Autowired
     ProductService productService;
 
+
     @Test
     void getProductByCodeSuccessfully() {
+        productService.createProduct( new CreateProductRequest("P101", "Product P101", "Product P101 description", new BigDecimal("34.0")));
         String code = "P101";
 
         Product product = given().contentType(ContentType.JSON)
