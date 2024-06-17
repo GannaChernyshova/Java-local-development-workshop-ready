@@ -1,22 +1,13 @@
 package com.testcontainers.catalog.tests;
 
 import static io.restassured.RestAssured.given;
-import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.awaitility.Awaitility.await;
 import static org.hamcrest.CoreMatchers.endsWith;
 
 import com.testcontainers.catalog.domain.ProductService;
-import com.testcontainers.catalog.domain.models.Product;
 import io.restassured.http.ContentType;
-import java.io.File;
-import java.io.IOException;
-import java.time.Duration;
-import java.util.Optional;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
 
 class ProductControllerTest extends com.testcontainers.catalog.tests.BaseIntegrationTest {
     @Autowired

@@ -1,15 +1,15 @@
 package com.testcontainers.catalog.domain.internal;
 
 import java.util.Optional;
-
+import org.springframework.data.elasticsearch.annotations.Query;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 import org.springframework.data.repository.query.Param;
-import org.springframework.data.elasticsearch.annotations.Query;
 
 interface ProductRepository extends ElasticsearchRepository<ProductEntity, String> {
     Optional<ProductEntity> findByCode(String code);
 
-    @Query("""
+    @Query(
+            """
                     {
                              "script": {
                                  "source": "ctx._source.image = params.image",

@@ -1,13 +1,11 @@
 package com.testcontainers.catalog.domain.internal;
 
-
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import java.math.BigDecimal;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
-
-import java.math.BigDecimal;
 
 @Document(indexName = "products")
 class ProductEntity {

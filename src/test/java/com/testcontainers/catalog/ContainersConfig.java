@@ -21,8 +21,8 @@ public class ContainersConfig {
     @Bean
     @ServiceConnection
     ElasticsearchContainer elasticsearchContainer() {
-        var elastic = new ElasticsearchContainer("docker.elastic.co/elasticsearch/elasticsearch:7.17.10")
-                .withReuse(false);
+        var elastic =
+                new ElasticsearchContainer("docker.elastic.co/elasticsearch/elasticsearch:7.17.10").withReuse(false);
         return elastic;
     }
 
@@ -49,7 +49,7 @@ public class ContainersConfig {
     }
 
     @Bean
-   WireMockContainer wiremockServer(DynamicPropertyRegistry registry) {
+    WireMockContainer wiremockServer(DynamicPropertyRegistry registry) {
         WireMockContainer wiremockServer =
                 new WireMockContainer("wiremock/wiremock:3.2.0-alpine").withMappingFromResource("mocks-config.json");
         registry.add("application.inventory-service-url", wiremockServer::getBaseUrl);

@@ -5,16 +5,13 @@ import org.testcontainers.containers.KafkaContainer;
 import org.testcontainers.containers.Network;
 import org.testcontainers.utility.DockerImageName;
 
-
 public class RunMe {
     public static void main(String[] args) {
-        GenericContainer container = new GenericContainer("redis:6.2.5")
-                .withExposedPorts(6379);
+        GenericContainer container = new GenericContainer("redis:6.2.5").withExposedPorts(6379);
         container.start();
         var connectionUrl = container.getHost() + ":" + container.getMappedPort(6379);
-        System.out.println("Redis connection url: "+ connectionUrl);
+        System.out.println("Redis connection url: " + connectionUrl);
         container.stop();
-
 
         Network network = Network.newNetwork();
 
@@ -30,6 +27,5 @@ public class RunMe {
         kafka.start();
         var kafkaBootstrapServers = kafka.getBootstrapServers();
         System.out.println("Kafka bootstrap servers: " + kafkaBootstrapServers);
-
     }
 }
