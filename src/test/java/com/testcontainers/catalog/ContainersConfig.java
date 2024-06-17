@@ -22,7 +22,7 @@ public class ContainersConfig {
     @ServiceConnection
     ElasticsearchContainer elasticsearchContainer() {
         var elastic = new ElasticsearchContainer("docker.elastic.co/elasticsearch/elasticsearch:7.17.10")
-                .withReuse(true);
+                .withReuse(false);
         return elastic;
     }
 
