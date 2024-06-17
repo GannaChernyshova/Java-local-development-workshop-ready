@@ -20,6 +20,7 @@ class GetProductsTest extends BaseIntegrationTest {
 
     @Test
     void getProductByCodeSuccessfully() {
+        productService.deleteAllProducts();
         productService.createProduct( new CreateProductRequest("P101", "Product P101", "Product P101 description", new BigDecimal("34.0")));
         String code = "P101";
 

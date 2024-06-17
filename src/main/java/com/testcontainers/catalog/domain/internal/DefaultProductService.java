@@ -63,6 +63,12 @@ class DefaultProductService implements ProductService {
         productRepository.updateProductImage(code, image);
     }
 
+    @Override
+    public void deleteAllProducts() {
+        productRepository.deleteAll();
+    }
+
+
     private boolean isProductAvailable(String code) {
         try {
             return inventoryServiceClient.getInventory(code).quantity() > 0;

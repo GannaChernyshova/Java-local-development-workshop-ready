@@ -14,4 +14,6 @@ public interface ProductService {
     void uploadProductImage(String code, String imageName, InputStream inputStream);
 
     void updateProductImage(String code, String image);
+
+    void deleteAllProducts();
 }

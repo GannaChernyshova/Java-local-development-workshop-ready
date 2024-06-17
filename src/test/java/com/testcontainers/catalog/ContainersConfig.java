@@ -10,8 +10,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.testcontainers.containers.KafkaContainer;
-import org.testcontainers.containers.MongoDBContainer;
 import org.testcontainers.containers.localstack.LocalStackContainer;
+import org.testcontainers.elasticsearch.ElasticsearchContainer;
 import org.wiremock.integrations.testcontainers.WireMockContainer;
 
 // annotation indicates that this configuration class defines the beans that can be used for Spring Boot tests.
@@ -20,9 +20,10 @@ public class ContainersConfig {
 
     @Bean
     @ServiceConnection
-    MongoDBContainer mongodb() {
-        var mongo = new MongoDBContainer("mongo:7.0.7-jammy");
-        return mongo;
+    ElasticsearchContainer elasticsearchContainer() {
+        var elastic = new ElasticsearchContainer("docker.elastic.co/elasticsearch/elasticsearch:7.17.10")
+                .withReuse(true);
+        return elastic;
     }
 
     @Bean

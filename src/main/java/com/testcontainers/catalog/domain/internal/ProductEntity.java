@@ -5,11 +5,11 @@ import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.elasticsearch.annotations.Document;
 
 import java.math.BigDecimal;
 
-@Document(collection = "products")
+@Document(indexName = "products")
 class ProductEntity {
     @Id
     private String id;
